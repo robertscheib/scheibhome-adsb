@@ -1,6 +1,7 @@
 # Environment and secrets — never commit
 .env
-.env.*
+.env.local
+.env.*.local
 secrets.env
 
 # Runtime data directories
