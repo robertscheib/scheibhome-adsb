@@ -1,0 +1,21 @@
+# Environment and secrets — never commit
+.env
+.env.*
+secrets.env
+
+# Runtime data directories
+ultrafeeder/
+planefence/html/
+planefence/config/records/
+acars_data/
+dump978/autogain/
+vnstat/
+vrs/
+rtlsdr-airband/
+webproxy/
+
+# Logs
+*.log
+
+# Editor
+.DS_Store
