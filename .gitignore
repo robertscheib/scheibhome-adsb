@@ -20,3 +20,4 @@ webproxy/
 
 # Editor
 .DS_Store
+*.xlsx
