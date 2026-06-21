@@ -4,6 +4,10 @@
 .env.*.local
 secrets.env
 
+# API credential files — real ones ignored; commit only the *.example.json
+*-credentials.json
+!*-credentials.example.json
+
 # Runtime data directories
 ultrafeeder/
 planefence/html/
