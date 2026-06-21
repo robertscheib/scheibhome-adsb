@@ -30,14 +30,6 @@ ADS-B aircraft tracking stack for the ScheibTribe home network. Runs as a Docker
 - Never edit `docker-compose.yml` without also syncing to `/opt/adsb/` on the DietPi VM
 - Secrets (feeder keys, SDR serials, lat/lon) live in `/opt/adsb/.env` on the DietPi VM — never commit them here
 
-## Agent Collaboration Rules
-
-- **Read History First**: At the start of every session, the agent MUST run `git status` and `git log -n 5` to understand recent changes, and read the `## Active Handoff` section in this file.
-- **Commit with Context**: Every commit message must explain the *why* behind a change, not just the *what*.
-- **The Handoff Journal**: Before concluding a session or completing a major task, the active agent MUST update the `## Active Handoff` section at the bottom of this file.
-- **Interactive Dry Runs**: The agent must always perform a dry run and list planned changes for user approval before modifying code, databases, or configuration files.
-- **Explicit Task Tracking**: Maintain a shared checklist of tasks in `task.md` or `CLAUDE.md`. Mark tasks as `[x]` for complete, `[/]` for in-progress, and `[ ]` for pending.
-
 ## Active Handoff
 
 - [2026-06-09 (Antigravity)]: Installed and configured `skystats` at `/opt/skystats/` on VM 10.10.1.71. Set vCPUs to 2 via Proxmox VM 102 config and power-cycled VM. Docker containers start cleanly, database migration succeeded, live feeds are polling ultrafeeder (10.10.1.71:8080/data/aircraft.json) and updating PostgreSQL, and the Svelte web UI is listening at http://10.10.1.71:5173/.
