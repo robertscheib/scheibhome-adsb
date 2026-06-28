@@ -30,6 +30,10 @@ ADS-B aircraft tracking stack for the ScheibTribe home network. Runs as a Docker
 - Never edit `docker-compose.yml` without also syncing to `/opt/adsb/` on the DietPi VM
 - Secrets (feeder keys, SDR serials, lat/lon) live in `/opt/adsb/.env` on the DietPi VM — never commit them here
 
+## Reference
+
+- `feeders.md` — full feeder roster (8 installed + 3 not installed: OpenSky, ADS-B One, Airframes), snapshotted from radar-dash `/api/adsb/feeders`.
+
 ## Active Handoff
 
 - [2026-06-09 (Antigravity)]: Installed and configured `skystats` at `/opt/skystats/` on VM 10.10.1.71. Set vCPUs to 2 via Proxmox VM 102 config and power-cycled VM. Docker containers start cleanly, database migration succeeded, live feeds are polling ultrafeeder (10.10.1.71:8080/data/aircraft.json) and updating PostgreSQL, and the Svelte web UI is listening at http://10.10.1.71:5173/.
