@@ -555,6 +555,6 @@ services:
       - TZ=${FEEDER_TZ}
       - WATCHTOWER_CLEANUP=true
       - WATCHTOWER_POLL_INTERVAL=86400
-      - WATCHTOWER_ROLLING_RESTART=true
+      - WATCHTOWER_ROLLING_RESTART=false
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
