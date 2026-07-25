@@ -31,6 +31,7 @@ services:
       - READSB_RX_LOCATION_ACCURACY=2
       - READSB_STATS_RANGE=true
       - ULTRAFEEDER_CONFIG=
+          adsb,dump978,30978,uat_in;
           adsb,feed.adsb.fi,30004,beast_reduce_plus_out;
           adsb,in.adsb.lol,30004,beast_reduce_plus_out;
           adsb,feed.airplanes.live,30004,beast_reduce_plus_out;
@@ -38,7 +39,6 @@ services:
           adsb,feed.theairtraffic.com,30004,beast_reduce_plus_out;
           adsb,data.avdelphi.com,24999,beast_reduce_plus_out;
           adsb,skyfeed.hpradar.com,30004,beast_reduce_plus_out;
-          adsb,feed.radarplane.com,30001,beast_reduce_plus_out;
           adsb,dati.flyitalyadsb.com,4905,beast_reduce_plus_out;
           adsb,feed1.adsbexchange.com,30004,beast_reduce_plus_out;
           mlat,feed.adsb.fi,31090,--privacy;
@@ -47,7 +47,6 @@ services:
           mlat,mlat.planespotters.net,31090,--privacy;
           mlat,feed.theairtraffic.com,31090,--privacy;
           mlat,skyfeed.hpradar.com,31090,--privacy;
-          mlat,feed.radarplane.com,31090,--privacy;
           mlat,dati.flyitalyadsb.com,30100,--privacy;
           mlat,feed.adsbexchange.com,31090,--privacy;
           mlathub,piaware,30105,beast_in;
@@ -73,9 +72,9 @@ services:
       - GRAPHS1090_DARKMODE=true
       - ENABLE_TIMELAPSE1090=true
       - PROMETHEUS_ENABLE=true
-      # Uncomment if dump978 is ever enabled:
-      # - ENABLE_978=yes
-      # - URL_978=http://dump978/skyaware978
+      # UAT/978 display and graphs:
+      - ENABLE_978=yes
+      - URL_978=http://dump978/skyaware978
       # Uncomment to push metrics to InfluxDB (also change image tag to :telegraf):
       # - INFLUXDBV2_URL=${INFLUX_URL}
       # - INFLUXDBV2_TOKEN=${INFLUX_TOKEN}
@@ -91,8 +90,6 @@ services:
       - /var/log:size=32M
 
   dump978:
-    profiles:
-      - donotstart
     image: ghcr.io/sdr-enthusiasts/docker-dump978
     container_name: dump978
     hostname: dump978
@@ -141,6 +138,9 @@ services:
       - LONG=${FEEDER_LONG}
       - TZ=${FEEDER_TZ}
       - FEEDER_ID=${PIAWARE_FEEDER_ID}
+      - UAT_RECEIVER_TYPE=relay
+      - UAT_RECEIVER_HOST=dump978
+      - UAT_RECEIVER_PORT=30978
     tmpfs:
       - /run:exec,size=64M
       - /var/log
@@ -154,10 +154,14 @@ services:
       - "autoheal=true"
     ports:
       - 8754:8754
+      - 8755:8755
     environment:
       - BEASTHOST=ultrafeeder
       - TZ=${FEEDER_TZ}
       - FR24KEY=${FR24_SHARING_KEY}
+      - FR24KEY_UAT=${FR24KEY_UAT}
+      - UATHOST=dump978
+      - UATPORT=30978
     tmpfs:
       - /var/log
 
@@ -351,10 +355,28 @@ services:
     ports:
       - 8000:8000
     environment:
-      - RTLSDRAIRBAND_CUSTOMCONFIG=true
+      - RTLSDRAIRBAND_MODE=scan
+      - RTLSDRAIRBAND_FREQS=122.900,122.975,119.350,126.675
+      - RTLSDRAIRBAND_SERIAL=978
+      - ICECAST_SOURCE_PASSWORD=${ICECAST_SOURCE_PASSWORD}
+      - ICECAST_ADMIN_PASSWORD=${ICECAST_ADMIN_PASSWORD}
     volumes:
-      - /opt/adsb/rtlsdr-airband:/run/rtlsdr-airband
       - /dev/bus/usb:/dev/bus/usb
+
+  openwebrx:
+    profiles:
+      - donotstart
+    image: jketterl/openwebrx:stable
+    container_name: openwebrx
+    restart: unless-stopped
+    ports:
+      - "8073:8073"
+    devices:
+      - "/dev/bus/usb:/dev/bus/usb"
+    volumes:
+      - /opt/adsb/openwebrx:/var/lib/openwebrx
+    tmpfs:
+      - /tmp/openwebrx
 
   acarsdec:
     profiles:
