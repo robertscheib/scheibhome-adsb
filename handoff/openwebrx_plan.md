@@ -34,7 +34,7 @@ We will add the new `openwebrx` service:
 
 ### 3. Execution & Verification Steps
 
-1. **Apply the docker-compose changes** inside `/home/robert/projects/ads-b/docker-compose.yml`.
+1. **Apply the docker-compose changes** inside `/home/robert/projects/adsb-platform/ads-b/docker-compose.yml`.
 2. **Synchronize changes** to the DietPi guest VM (`10.10.1.71`).
 3. **Stop `airband`** and start the new `openwebrx` container:
    ```bash

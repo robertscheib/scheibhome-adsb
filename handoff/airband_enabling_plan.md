@@ -39,7 +39,7 @@ We will remove the `donotstart` profile from the `airband` service, switch to au
 ---
 
 ### 3. Execution & Verification Steps
-1. **Apply the docker-compose changes** inside `/home/robert/projects/ads-b/docker-compose.yml`.
+1. **Apply the docker-compose changes** inside `/home/robert/projects/adsb-platform/ads-b/docker-compose.yml`.
 2. **Synchronize changes** to the DietPi guest VM (`10.10.1.71`).
 3. **Stop `dump978`** since we are shifting the secondary `978` SDR to VHF Airband:
    ```bash
