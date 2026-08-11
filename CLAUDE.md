@@ -7,7 +7,7 @@ ADS-B aircraft tracking stack for the ScheibTribe home network. Runs as a Docker
 ## Environment
 
 - **Stack host**: DietPi VM at 10.10.1.71 (`/opt/adsb/`)
-- **Repo (this machine)**: Ubuntu VM at 10.10.1.19 (`~/projects/ads-b/`)
+- **Repo (this machine)**: Ubuntu VM at 10.10.1.19 (`~/projects/adsb-platform/ads-b/`)
 - **Key file**: `docker-compose.yml` — all env vars populated from `/opt/adsb/.env` on the DietPi VM
 - **Ports**: tar1090 on 8080, piaware on 8081/8088, planefence on 8083, planefinder on 8084, VRS on 8091
 
